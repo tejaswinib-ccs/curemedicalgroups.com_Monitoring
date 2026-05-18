@@ -32,7 +32,7 @@ jobs:
       env:
         TZ: Asia/Kolkata
       run: |
-        python monitor.py
+        python monitor-1.py
 
     - name: Upload Screenshots
       uses: actions/upload-artifact@v4
