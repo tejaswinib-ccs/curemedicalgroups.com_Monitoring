@@ -1,17 +1,28 @@
 import os
 import time
+import smtplib
+
+from email.message import EmailMessage
+
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 # ====== CONFIGURATION ======
 URLS = [
-    "https://curemedicalgroups.com/",
+    "https://curemedicalgroups.com/"
 ]
 
 BASE_FOLDER = "screenshots"
 LOG_FILE = "monitoring_log.csv"
+
+# Email Configuration
+SENDER_EMAIL = os.getenv("EMAIL_USER")
+SENDER_PASSWORD = os.getenv("EMAIL_PASS")
+
+RECEIVER_EMAIL = "tejaswini.boyenapally@codectrlsolutions.com"
 
 # ===========================
 
@@ -39,6 +50,37 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
 
+def send_email_alert(subject, body):
+
+    message = EmailMessage()
+
+    message["Subject"] = subject
+    message["From"] = SENDER_EMAIL
+    message["To"] = RECEIVER_EMAIL
+
+    message.set_content(body)
+
+    try:
+
+        server = smtplib.SMTP("smtp.office365.com", 587)
+
+        server.starttls()
+
+        server.login(
+            SENDER_EMAIL,
+            SENDER_PASSWORD
+        )
+
+        server.send_message(message)
+
+        server.quit()
+
+        print("Email alert sent successfully.")
+
+    except Exception as e:
+
+        print(f"Email failed: {e}")
+
 def log_status(url, status):
     timestamp = datetime.now(IST).strftime("%d-%m-%Y %I:%M:%S %p")
 
@@ -51,7 +93,13 @@ for url in URLS:
         time.sleep(5)
 
         if driver.title == "" or "error" in driver.title.lower():
+
             status = "DOWN"
+
+            send_email_alert(
+                "Website DOWN Alert",
+                f"The website {url} is DOWN."
+            )
         else:
             status = "UP"
 
@@ -69,7 +117,14 @@ for url in URLS:
         log_status(url, status)
 
     except Exception as e:
+
         print(f"{url} - ERROR: {e}")
+
         log_status(url, "ERROR")
+
+        send_email_alert(
+        "Website Monitoring ERROR",
+        f"Error while checking {url}\n\n{e}"
+        )
 
 driver.quit()
