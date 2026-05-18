@@ -36,7 +36,7 @@ driver = webdriver.Chrome(options=chrome_options)
 def log_status(url, status):
     timestamp = (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(LOG_FILE, "a") as f:
+    with open(LOG_FILE, "a", newline="") as f:
         f.write(f"{timestamp},{url},{status}\n")
 
 for url in URLS:
