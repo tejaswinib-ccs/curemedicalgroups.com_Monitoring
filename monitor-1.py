@@ -34,8 +34,10 @@ chrome_options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=chrome_options)
 
 def log_status(url, status):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     with open(LOG_FILE, "a") as f:
-        f.write(f"{now.strftime('%Y/%m/%d %H:%M:%S')},{url},{status}\n")
+        f.write(f"{timestamp},{url},{status}\n")
 
 for url in URLS:
     try:
@@ -48,7 +50,8 @@ for url in URLS:
             status = "UP"
 
             # Create filename with yy_mm_dd format
-            filename = f"{url.replace('https://','').replace('/','_')}_{now.strftime('%Y%m%d_%H%M%S')}.png"
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{url.replace('https://','').replace('/','_')}_{timestamp}.png"
             full_path = os.path.join(folder_path, filename)
 
             driver.save_screenshot(full_path)
