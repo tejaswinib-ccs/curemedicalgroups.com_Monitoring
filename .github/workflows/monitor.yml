@@ -28,11 +28,14 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Run Monitoring Script
-      env:
-        TZ: Asia/Kolkata
-      run: |
-        python monitor.py
+    - - name: Run Monitoring Script
+  env:
+    TZ: Asia/Kolkata
+    EMAIL_USER: ${{ secrets.EMAIL_USER }}
+    EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+
+  run: |
+    python monitor.py
 
     - name: Upload Screenshots
       uses: actions/upload-artifact@v4
