@@ -2,7 +2,7 @@ name: Website Monitoring Automation
 
 on:
   schedule:
-  - cron: '30 15 * * *'
+    - cron: '30 15 * * *'
 
   workflow_dispatch:
 
@@ -29,6 +29,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run Monitoring Script
+      env:
+        TZ: Asia/Kolkata
       run: |
         python monitor.py
 
