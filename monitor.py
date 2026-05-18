@@ -1,4 +1,3 @@
-```python
 import os
 import time
 from datetime import datetime
@@ -35,14 +34,16 @@ os.makedirs(folder_path, exist_ok=True)
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
 
 def log_status(url, status):
-    timestamp = datetime.now(IST).strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now(IST).strftime("%d-%m-%Y %I:%M:%S %p")
 
     with open(LOG_FILE, "a", newline="") as f:
-        f.write(f"{timestamp},{url},{status}\n")
+        f.write(f'"{timestamp}","{url}","{status}"\n')
 
 for url in URLS:
     try:
@@ -72,4 +73,3 @@ for url in URLS:
         log_status(url, "ERROR")
 
 driver.quit()
-```
