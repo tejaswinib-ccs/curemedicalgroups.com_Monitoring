@@ -13,38 +13,38 @@ jobs:
 
     steps:
 
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install Google Chrome
-      uses: browser-actions/setup-chrome@v1
+      - name: Install Google Chrome
+        uses: browser-actions/setup-chrome@v1
 
-    - name: Install Dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
 
-    - - name: Run Monitoring Script
-  env:
-    TZ: Asia/Kolkata
-    EMAIL_USER: ${{ secrets.EMAIL_USER }}
-    EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+      - name: Run Monitoring Script
+        env:
+          TZ: Asia/Kolkata
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
 
-  run: |
-    python monitor.py
+        run: |
+          python monitor.py
 
-    - name: Upload Screenshots
-      uses: actions/upload-artifact@v4
-      with:
-        name: screenshots
-        path: screenshots/
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/
 
-    - name: Upload Logs
-      uses: actions/upload-artifact@v4
-      with:
-        name: logs
-        path: monitoring_log.csv
+      - name: Upload Logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: monitoring_log.csv
