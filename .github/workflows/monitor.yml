@@ -28,6 +28,10 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Pull Latest Changes
+        run: |
+          git pull origin main
+
       - name: Run Monitoring Script
         env:
           TZ: Asia/Kolkata
@@ -36,6 +40,21 @@ jobs:
 
         run: |
           python monitor.py
+
+      - name: Commit and Push Logs
+        run: |
+
+          git config --global user.name "github-actions"
+
+          git config --global user.email "github-actions@github.com"
+
+          git pull origin main
+
+          git add monitoring_log.csv
+
+          git commit -m "Updated monitoring logs" || echo "No changes to commit"
+
+          git push origin main
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v4
