@@ -12,7 +12,7 @@ from sendgrid.helpers.mail import Mail
 
 # ====== CONFIGURATION ======
 URLS = [
-    "https://this-domain-does-not-exist-123456789.com"
+    "https://curemedicalgroups.com/"
 ]
 
 BASE_FOLDER = "screenshots"
