@@ -37,8 +37,7 @@ jobs:
       - name: Run Monitoring Script
         env:
           TZ: Asia/Kolkata
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 
         run: |
           python monitor.py
