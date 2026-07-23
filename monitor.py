@@ -91,7 +91,7 @@ driver = webdriver.Chrome(options=chrome_options)
 for url in URLS:
     try:
         driver.get(url)
-        time.sleep(10)
+        time.sleep(15)
 
         if driver.title == "" or "error" in driver.title.lower():
             status = "DOWN"
