@@ -2,7 +2,7 @@ name: Website Monitoring Automation
 
 on:
   schedule:
-    - cron: '30 12 * * *'
+    - cron: '30 12 * * *'   # 6:00 PM IST
 
   workflow_dispatch:
 
